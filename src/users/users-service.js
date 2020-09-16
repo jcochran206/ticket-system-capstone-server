@@ -40,10 +40,10 @@ const userService = {
             .returning('*')
     },
     //relevant
-    deletePancake(db, users_id) {
+    deletePancake(db, usersid) {
         return db('users')
             .where({
-                'id': users_id
+                'id': usersid
             })
             .delete()
     }
