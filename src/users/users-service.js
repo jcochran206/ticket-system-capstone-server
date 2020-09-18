@@ -21,7 +21,7 @@ const userService = {
             .first()
     },
     //relevant
-    insertPancake(db, newUser) {
+    insertUser(db, newUser) {
         return db
             .insert(newUser)
             .into('users')
@@ -31,16 +31,16 @@ const userService = {
             })
     },
     //relevant
-    updatePancake(db, users_id, newUser) {
+    updateUser(db, usersid, newUser) {
         return db('users')
             .where({
-                id: users_id
+                id: usersid
             })
             .update(newUser, returning = true)
             .returning('*')
     },
     //relevant
-    deletePancake(db, usersid) {
+    deleteUser(db, usersid) {
         return db('users')
             .where({
                 'id': usersid
