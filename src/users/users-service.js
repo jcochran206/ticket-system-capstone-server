@@ -7,17 +7,18 @@ const userService = {
                 'users.userid',
                 'users.username',
                 'users.pwd',
+                'users.email',
             )
     }, 
     getUsersById(db, userid) {
         return db
             .from('users')
             .select(
-                'users.id',
+                'users.userid',
                 'users.username',
                 'users.pwd',
             )
-            .where('users.id', userid)
+            .where('users.userid', userid)
             .first()
     },
     //relevant
@@ -31,19 +32,19 @@ const userService = {
             })
     },
     //relevant
-    updateUser(db, usersid, newUser) {
+    updateUser(db, userid, newUser) {
         return db('users')
             .where({
-                id: usersid
+                id: userid
             })
             .update(newUser, returning = true)
             .returning('*')
     },
     //relevant
-    deleteUser(db, usersid) {
+    deleteUser(db, userid) {
         return db('users')
             .where({
-                'id': usersid
+                'id': userid
             })
             .delete()
     }
