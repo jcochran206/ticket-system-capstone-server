@@ -17,7 +17,7 @@ VALUES
     ('hardware', 'camera does work', '2', 'MED', 'Bremerton'),
     ('other', 'displays are not showing up', '1', 'High', 'Camp Murray'),
     ('software', 'need sketch software', '1', 'High', 'Camp Murray'),
-    ('hardware', 'need a mobile phone', '2', 'MED', 'Renton')
+    ('hardware', 'need a mobile phone', '2', 'MED', 'Renton');
 
 INSERT INTO employees (fname, lname, email, emp_address, emp_ST, emp_Zip, office_Loc, emp_Roles)
 VALUES
