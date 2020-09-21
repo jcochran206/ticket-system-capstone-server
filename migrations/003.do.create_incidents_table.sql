@@ -1,7 +1,7 @@
 CREATE TYPE priority as ENUM (
     'High',
     'MED',
-    'Low',
+    'Low'
 );
 
 CREATE TABLE incidents (
@@ -11,6 +11,6 @@ CREATE TABLE incidents (
     users_id INTEGER
         REFERENCES users(userid) ON DELETE CASCADE NOT NULL,
     inc_pri priority,
-    Office_location VARCHAR(50),
+    office_location VARCHAR(50)
 );
 
