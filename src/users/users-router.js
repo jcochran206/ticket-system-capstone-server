@@ -1,7 +1,8 @@
 const path = require('path')
 const express = require('express')
 const xss = require('xss')
-const userService = require('./users-service')
+const userService = require('./users-service');
+const { insertUser } = require('./users-service');
 
 const userRouter = express.Router();
 const jsonParser = express.json();
@@ -24,8 +25,29 @@ userRouter
             .catch(next)
     })
     .post(jsonParser, (req, res, next) => {
-        const {username, pwd, email} = req.body;
+        const { username, pwd, email } = req.body;
+        
         console.log('username:', username, "password:", pwd, "email:", email)
+
+        for (const field of ['username', 'pwd', 'email' ])
+            if(field === null)
+                return res.status(400).json({
+                    error: {
+                        message: `Missing ${field} in request`
+                    }
+            })
+            const newUser = {username, pwd, email};
+            userService.insertUser(
+                req.app.get('db'),
+                newUser
+            )
+            .then(user => {
+                res
+                .status(201)
+                .location('/users/:userid')
+                .json(serializeUsers(user))
+            })
+            .catch(next)
     })
 //getUserbyId
 userRouter
@@ -47,8 +69,9 @@ userRouter
     .get((req, res) => {
         res.json(serializeUsers(res.userid))
     })
-    
-   
+//put route
+// userRouter
+//     .route()
 
 
 
