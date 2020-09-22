@@ -14,10 +14,10 @@ VALUES
 INSERT INTO incidents (title, comments, users_id, inc_pri, office_location)
 VALUES
     ('software', 'need update', '1', 'Low', 'Bremerton'),
-    ('hardware', 'camera does work', '2', 'Med', 'Bremerton'),
+    ('hardware', 'camera does work', '2', 'MED', 'Bremerton'),
     ('other', 'displays are not showing up', '1', 'High', 'Camp Murray'),
     ('software', 'need sketch software', '1', 'High', 'Camp Murray'),
-    ('hardware', 'need a mobile phone', '2', 'Med', 'Renton');
+    ('hardware', 'need a mobile phone', '2', 'MED', 'Renton');
 
 INSERT INTO employees (fname, lname, email, emp_address, emp_st, emp_zip, office_location, emp_roles)
 VALUES
