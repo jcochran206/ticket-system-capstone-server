@@ -26,7 +26,31 @@ incidentRouter
             })
             .catch(next)
     })
+    .post(jsonParser, (req, res, next) => {
+        const { title, comments, users_id, inc_pri, office_location } = req.body;
+        
+        console.log('title:', title, "comments:", comments, "users_id:", users_id, "priority:", inc_pri, "office_location:", office_location)
 
+        for (const field of ['title', 'comments', 'users_id', 'inc_pri', 'office_location' ])
+            if(field === null)
+                return res.status(400).json({
+                    error: {
+                        message: `Missing ${field} in request`
+                    }
+            })
+            const newIncident = {title, comments, users_id, inc_pri, office_location};
+            incidentService.insertIncident(
+                req.app.get('db'),
+                newIncident
+            )
+            .then(incident => {
+                res
+                .status(201)
+                .location('/incidents/:id')
+                .json(serializeIncidents(incident))
+            })
+            .catch(next)
+    })
 
 //get incidents by id route
 incidentRouter
@@ -48,4 +72,39 @@ incidentRouter
     .get((req, res) => {
         res.json(serializeIncidents(res.id))
     })
+//update route
+.put(jsonParser, (req, res, next) => {
+    const {
+        title,
+        comments,
+        users_id,
+        inc_pri,
+        office_location
+    } = req.body
+    const incidentToUpdate = {
+        title,
+        comments,
+        users_id,
+        inc_pri,
+        office_location
+    }
+
+    const numberOfValues = Object.values(incidentToUpdate).filter(Boolean).length
+    if (numberOfValues === 0)
+        return res.status(400).json({
+            error: {
+                message: `Request body must content either 'title' or 'completed'`
+            }
+        })
+
+    incidentService.updateIncident(
+            req.app.get('db'),
+            req.params.id,
+            incidentToUpdate
+        )
+        .then(updatedIncident => {
+            res.status(200).json(serializeIncidents(updatedIncident[0]))
+        })
+        .catch(next)
+})
 module.exports = incidentRouter
