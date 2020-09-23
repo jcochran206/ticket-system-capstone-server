@@ -73,38 +73,51 @@ incidentRouter
         res.json(serializeIncidents(res.id))
     })
 //update route
-.put(jsonParser, (req, res, next) => {
-    const {
-        title,
-        comments,
-        users_id,
-        inc_pri,
-        office_location
-    } = req.body
-    const incidentToUpdate = {
-        title,
-        comments,
-        users_id,
-        inc_pri,
-        office_location
-    }
+    .put(jsonParser, (req, res, next) => {
+        const {
+            
+            title,
+            comments,
+            users_id,
+            inc_pri,
+            office_location
+        } = req.body
+        const incidentToUpdate = {
+            
+            title,
+            comments,
+            users_id,
+            inc_pri,
+            office_location
+        }
 
-    const numberOfValues = Object.values(incidentToUpdate).filter(Boolean).length
-    if (numberOfValues === 0)
-        return res.status(400).json({
-            error: {
-                message: `Request body must content either 'title' or 'completed'`
-            }
-        })
+        const numberOfValues = Object.values(incidentToUpdate).filter(Boolean).length
+        if (numberOfValues === 0)
+            return res.status(400).json({
+                error: {
+                    message: `Request body must content either 'title' or 'completed'`
+                }
+            })
 
-    incidentService.updateIncident(
-            req.app.get('db'),
-            req.params.id,
-            incidentToUpdate
-        )
-        .then(updatedIncident => {
-            res.status(200).json(serializeIncidents(updatedIncident[0]))
-        })
-        .catch(next)
-})
+        incidentService.updateIncident(
+                req.app.get('db'),
+                req.params.id,
+                incidentToUpdate
+            )
+            .then(updatedIncident => {
+                res.status(200).json(serializeIncidents(updatedIncident[0]))
+            })
+            .catch(next)
+    })
+    //delete route
+    .delete((req, res, next) => {
+        incidentService.deleteIncident(
+                req.app.get('db'),
+                req.params.id
+            )
+            .then(numRowsAffected => {
+                res.status(204).end()
+            })
+            .catch(next)
+    })
 module.exports = incidentRouter
