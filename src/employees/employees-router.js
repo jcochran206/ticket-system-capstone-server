@@ -55,23 +55,23 @@ employeeRouter
 //             .catch(next)
 //     })
 // //getUserbyId
-// employeeRouter
-//     .route('/:emp_id')
-//     .all((req, res, next) => {
-//         const { userid } = req.params;
-//         userService.getEmployeesById(req.app.get('db'), userid)
-//             .then(userid => {
-//                 if (!userid) {
-//                     return res
-//                         .status(404)
-//                         .send({ error: { message: `User doesn't exist.` } })
-//                 }
-//                 res.userid = userid
-//                 next()
-//             })
-//             .catch(next)
-//     })
-//     .get((req, res) => {
-//         res.json(serializeEmployees(res.emp_id))
-//     })
+employeeRouter
+    .route('/:emp_id')
+    .all((req, res, next) => {
+        const { emp_id } = req.params;
+        EmployeeService.getEmployeesById(req.app.get('db'), emp_id)
+            .then(emp_id => {
+                if (!emp_id) {
+                    return res
+                        .status(404)
+                        .send({ error: { message: `User doesn't exist.` } })
+                }
+                res.emp_id = emp_id
+                next()
+            })
+            .catch(next)
+    })
+    .get((req, res) => {
+        res.json(serializeEmployees(res.emp_id))
+    })
 module.exports = employeeRouter

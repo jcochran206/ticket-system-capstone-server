@@ -10,6 +10,7 @@ const errorHandler = require('./middleware/error-handler')
 const pancakeRouter = require('./pancake/pancake-router')
 const userRouter = require('./users/users-router')
 const employeeRouter = require('./employees/employees-router')
+const incidentRouter = require('./incidents/incidents-router')
 
 const app = express()
 
@@ -29,6 +30,7 @@ app.use(express.static('public'))
 app.use('/api/pancakes', pancakeRouter)
 app.use('/api/users', userRouter)
 app.use('/api/employees', employeeRouter)
+app.use('/api/incidents', incidentRouter)
 
 app.use(errorHandler)
 
