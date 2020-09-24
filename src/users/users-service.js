@@ -35,7 +35,7 @@ const userService = {
     updateUser(db, userid, newUser) {
         return db('users')
             .where({
-                id: userid
+                userid: userid
             })
             .update(newUser, returning = true)
             .returning('*')
@@ -44,7 +44,7 @@ const userService = {
     deleteUser(db, userid) {
         return db('users')
             .where({
-                'id': userid
+                userid: userid
             })
             .delete()
     }

@@ -69,9 +69,40 @@ userRouter
     .get((req, res) => {
         res.json(serializeUsers(res.userid))
     })
-//put route
-// userRouter
-//     .route()
+//update route
+    .put(jsonParser, (req, res, next) => {
+        const {
+            userid,
+            username,
+            pwd,
+            email
+        } = req.body
+        const userToUpdate = {
+            userid,
+            username,
+            pwd,
+            email
+        }
+        
+        const numberOfValues = Object.values(userToUpdate).filter(Boolean).length
+        if (numberOfValues === 0)
+            return res.status(400).json({
+                error: {
+                    message: `Request body must content either 'title' or 'completed'`
+                }
+            })
+
+        userService.updateUser(
+                req.app.get('db'),
+                req.params.userid,
+                userToUpdate
+            )
+            .then(updateUser => {
+                res.status(200).json(serializeUsers(updateUser[0]))
+            })
+            .catch(next)
+    })
+
 
 
 
