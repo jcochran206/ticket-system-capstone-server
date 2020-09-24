@@ -102,21 +102,16 @@ userRouter
             })
             .catch(next)
     })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// delete route
+    .delete((req, res, next) => {
+        const { userid } = req.params;
+        userService.deleteUser(
+                req.app.get('db'),
+                req.params.userid
+            )
+            .then(numRowsAffected => {
+                res.status(204).end()
+            })
+            .catch(next)
+    })
 module.exports = userRouter
