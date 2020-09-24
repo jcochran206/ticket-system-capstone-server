@@ -43,9 +43,10 @@ const employeeService = {
     },
     //relevant
     deleteEmployee(db, emp_id) {
+        console.log("employee ids:", emp_id)
         return db('employees')
             .where({
-                'id': emp_id
+                emp_id: emp_id
             })
             .delete()
     }

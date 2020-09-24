@@ -117,4 +117,16 @@ employeeRouter
             })
             .catch(next)
     })
+// delete route
+    .delete((req, res, next) => {
+        const { emp_id } = req.params;
+        EmployeeService.deleteEmployee(
+                req.app.get('db'),
+                req.params.emp_id
+            )
+            .then(numRowsAffected => {
+                res.status(204).end()
+            })
+            .catch(next)
+    })
 module.exports = employeeRouter
