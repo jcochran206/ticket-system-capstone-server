@@ -15,7 +15,7 @@ const serializeIncidents = incident => ({
     priority: incident.inc_pri,
     office_location: incident.office_location,
 })
-
+// get all incidents route
 incidentRouter
     .route('/')
     .get((req, res, next) => {

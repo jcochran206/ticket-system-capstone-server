@@ -12,13 +12,13 @@ const serializeEmployees = emp => ({
     fname: emp.fname,
     lname: emp.lname,
     email: xss(emp.email),
-    address: emp.emp_addres,
+    address: emp.emp_address,
     st: emp.emp_st,
     zip: emp.emp_zip,
     office: emp.office_location,
     role: emp.emp_roles
 })
-
+//get all employees 
 employeeRouter
     .route('/')
     .get((req, res, next) => {
@@ -29,32 +29,32 @@ employeeRouter
             })
             .catch(next)
     })
-//     .post(jsonParser, (req, res, next) => {
-//         //const { username, pwd, email } = req.body;
+    //post route
+    .post(jsonParser, (req, res, next) => {
+        const { fname, lname, email, emp_address, emp_st, emp_zip, office_location, emp_roles } = req.body;
         
-//         //console.log('username:', username, "password:", pwd, "email:", email)
 
-//         for (const field of ['username', 'pwd', 'email' ])
-//             if(field === null)
-//                 return res.status(400).json({
-//                     error: {
-//                         message: `Missing ${field} in request`
-//                     }
-//             })
-//             const newUser = {username, pwd, email};
-//             userService.insertUser(
-//                 req.app.get('db'),
-//                 newUser
-//             )
-//             .then(user => {
-//                 res
-//                 .status(201)
-//                 .location('/users/:userid')
-//                 .json(serializeUsers(user))
-//             })
-//             .catch(next)
-//     })
-// //getUserbyId
+        for (const field of ['fname', 'lname', 'email', 'emp_address', 'emp_st', 'emp_zip', 'office_location', 'emp_roles' ])
+            if(field === null)
+                return res.status(400).json({
+                    error: {
+                        message: `Missing ${field} in request`
+                    }
+            })
+            const newEmployee = {fname, lname, email, emp_address, emp_st, emp_zip, office_location, emp_roles};
+            EmployeeService.insertEmployee(
+                req.app.get('db'),
+                newEmployee
+            )
+            .then(employee => {
+                res
+                .status(201)
+                .location('/employees/:emp_id')
+                .json(serializeEmployees(employee))
+            })
+            .catch(next)
+    })
+//get employees by id
 employeeRouter
     .route('/:emp_id')
     .all((req, res, next) => {
@@ -73,5 +73,48 @@ employeeRouter
     })
     .get((req, res) => {
         res.json(serializeEmployees(res.emp_id))
+    })
+    //update route
+    .put(jsonParser, (req, res, next) => {
+        const {
+            emp_id,
+            fname,
+            lname,
+            email,
+            emp_address,
+            emp_st,
+            emp_zip,
+            office_location,
+            emp_roles
+        } = req.body
+        const employeeToUpdate = {
+            emp_id,
+            fname,
+            lname,
+            email,
+            emp_address,
+            emp_st,
+            emp_zip,
+            office_location,
+            emp_roles
+        }
+        
+        const numberOfValues = Object.values(employeeToUpdate).filter(Boolean).length
+        if (numberOfValues === 0)
+            return res.status(400).json({
+                error: {
+                    message: `Request body must content either 'title' or 'completed'`
+                }
+            })
+
+        EmployeeService.updateEmployee(
+                req.app.get('db'),
+                req.params.emp_id,
+                employeeToUpdate
+            )
+            .then(updateEmployee => {
+                res.status(200).json(serializeEmployees(updateEmployee[0]))
+            })
+            .catch(next)
     })
 module.exports = employeeRouter

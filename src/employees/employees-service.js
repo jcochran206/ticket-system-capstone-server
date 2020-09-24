@@ -18,16 +18,7 @@ const employeeService = {
     getEmployeesById(db, emp_id) {
         return db
             .from('employees')
-            .select(
-                'employees.emp_id',
-                'employees.fname',
-                'employees.lname',
-                'employees.email',
-                'employees.emp_address',
-                'employees.emp_st',
-                'employees.emp_zip',
-                'employees.office_location',
-            )
+            .select("*")
             .where('employees.emp_id', emp_id)
             .first()
     },
@@ -45,7 +36,7 @@ const employeeService = {
     updateEmployee(db, emp_id, newEmployee) {
         return db('employees')
             .where({
-                id: emp_id
+                emp_id: emp_id
             })
             .update(newEmployee, returning = true)
             .returning('*')
