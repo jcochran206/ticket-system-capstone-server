@@ -7,7 +7,6 @@ const {
     NODE_ENV
 } = require('./config')
 const errorHandler = require('./middleware/error-handler')
-const pancakeRouter = require('./pancake/pancake-router')
 const userRouter = require('./users/users-router')
 const employeeRouter = require('./employees/employees-router')
 const incidentRouter = require('./incidents/incidents-router')
@@ -27,7 +26,7 @@ app.use(helmet())
 app.use(express.static('public'))
 
 
-app.use('/api/pancakes', pancakeRouter)
+
 app.use('/api/users', userRouter)
 app.use('/api/employees', employeeRouter)
 app.use('/api/incidents', incidentRouter)
