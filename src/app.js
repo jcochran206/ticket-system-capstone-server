@@ -20,6 +20,10 @@ const morganOption = (NODE_ENV === 'production') ?
 app.use(morgan(morganOption, {
     skip: () => NODE_ENV === 'test',
 }))
+var corsOptions = {
+    origin: 'https://ticket-system-capstone-client.vercel.app',
+}
+
 app.use(cors())
 app.use(helmet())
 
@@ -27,9 +31,9 @@ app.use(express.static('public'))
 
 
 
-app.use('/api/users', userRouter)
-app.use('/api/employees', employeeRouter)
-app.use('/api/incidents', incidentRouter)
+app.use('/api/users', cors(corsOptions), userRouter)
+app.use('/api/employees', cors(corsOptions), employeeRouter)
+app.use('/api/incidents', cors(corsOptions), incidentRouter)
 
 app.use(errorHandler)
 
