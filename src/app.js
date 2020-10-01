@@ -27,8 +27,7 @@ var corsOptions = {
 app.use(cors())
 app.use(helmet())
 
-app.use(express.static('public'))
-
+// app.use(express.static('public'))
 
 
 app.use('/api/users', cors(corsOptions), userRouter)
