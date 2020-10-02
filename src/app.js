@@ -21,13 +21,16 @@ app.use(morgan(morganOption, {
     skip: () => NODE_ENV === 'test',
 }))
 var corsOptions = {
-    origin: 'https://ticket-system-capstone-client.vercel.app',
+    origin: '*',
 }
 
 app.use(cors())
 app.use(helmet())
 
 // app.use(express.static('public'))
+app.get('/', (req,res) => {
+    res.send('hello world')
+})
 
 
 app.use('/api/users', cors(corsOptions), userRouter)
